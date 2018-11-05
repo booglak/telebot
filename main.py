@@ -18,8 +18,10 @@ def start(message):
 
 @bot.message_handler(commands=["course"])
 def course(message):
-    c = privat_bank_course.get_usd_course()
-    bot.send_message(message.chat.id, f"Курс доллара в привате: {c}")
+    c1 = privat_bank_course.get_usd_course_sale()
+    c2 = privat_bank_course.get_usd_course_buy()
+    bot.send_message(message.chat.id, f"Курс продажи доллара в привате: {c1} \n"
+                                      f"Курс покупки доллара в привате: {c2}")
 
 
 if __name__ == "__main__":
