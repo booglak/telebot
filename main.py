@@ -1,4 +1,4 @@
-import telebot, config, privat_bank_course, datetime
+import telebot, config, privat_bank_course
 
 bot = telebot.TeleBot(config.TOKEN)
 
@@ -8,7 +8,11 @@ def start(message):
     bot.send_message(message.chat.id, "Доступные команды: \n"
                                       "/help - описание доступных команд \n"
                                       "/start - Приветствие \n"
-                                      "/course - текущий курс доллара в приват банке")
+                                      "/course - текущий курс доллара в приват банке \n"
+                                      "/add_list - добавить новый список чего-либо \n"
+                                      "/get_list - посмотреть последний введенный список \n"
+                                      "/clear_list - очистить список \n"
+                                      "/complete_list - дополнить список \n")
 
 
 @bot.message_handler(commands=["start"])
@@ -24,16 +28,45 @@ def course(message):
                                       f"Курс покупки доллара в привате: {c2}")
 
 
+# Команда присваивает константе из конфига True для того что бы сработала функция add
 @bot.message_handler(commands=["add_list"])
 def add_list(message):
-    bot.send_message(message.chat.id, 'ppppppppp')
+    bot.send_message(message.chat.id, "Введи список!")
+    config.LIST_OPEN = True
 
 
+# Функция добавляет в строковую переменную введенный список, вызывается только после add_list
+@bot.message_handler(func=lambda message: config.LIST_OPEN == True)
+def add(message):
+    config.MANUAL_LIST = message.text
+    config.LIST_OPEN = False
 
-@bot.message_handler(content_types=["text"])
-def talk(message):
-    if message.text == 'привет':
-        bot.send_message(message.chat.id, 'Привет, привет!')
+
+# Команда присваивает константе из конфига True для того что бы сработала функция complete
+@bot.message_handler(commands=["complete_list"])
+def complete_list(message):
+    bot.send_message(message.chat.id, "Дополни список список!")
+    config.LIST_COMPLETE = True
+
+
+# Функция добавляет в заполненную строку новые значения, вызывается только после complete_list
+@bot.message_handler(func=lambda message: config.LIST_COMPLETE == True)
+def add(message):
+    config.MANUAL_LIST += ('\n' + message.text)
+    config.LIST_COMPLETE = False
+
+
+@bot.message_handler(commands=["clear_list"])
+def clear_list(message):
+    bot.send_message(message.chat.id, "Список очищен")
+    config.MANUAL_LIST = ''
+    config.LIST_OPEN = False
+
+
+@bot.message_handler(commands=["get_list"])
+def get_list(message):
+    bot.send_message(message.chat.id, "Последний введенный список:")
+    bot.send_message(message.chat.id, config.MANUAL_LIST)
 
 
 if __name__ == "__main__":
