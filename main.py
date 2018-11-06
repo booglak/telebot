@@ -1,4 +1,4 @@
-import telebot, config, privat_bank_course
+import telebot, config, privat_bank_course, datetime
 
 bot = telebot.TeleBot(config.TOKEN)
 
@@ -24,5 +24,17 @@ def course(message):
                                       f"Курс покупки доллара в привате: {c2}")
 
 
+@bot.message_handler(commands=["add_list"])
+def add_list(message):
+    bot.send_message(message.chat.id, 'ppppppppp')
+
+
+
+@bot.message_handler(content_types=["text"])
+def talk(message):
+    if message.text == 'привет':
+        bot.send_message(message.chat.id, 'Привет, привет!')
+
+
 if __name__ == "__main__":
-    bot.polling()
+    bot.polling(none_stop=True)
