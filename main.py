@@ -7,7 +7,6 @@ bot = telebot.TeleBot(config.TOKEN)
 def start(message):
     bot.send_message(message.chat.id, "Доступные команды: \n"
                                       "/help - описание доступных команд \n"
-                                      "/start - Приветствие \n"
                                       "/course - текущий курс доллара в приват банке \n"
                                       "/add_list - добавить новый список чего-либо \n"
                                       "/get_list - посмотреть последний введенный список \n"
@@ -17,7 +16,7 @@ def start(message):
 
 @bot.message_handler(commands=["start"])
 def start(message):
-    bot.send_message(message.chat.id, "Привет, я Гошин бот. Буду помогать ему чем смогу")
+    bot.send_message(message.chat.id, "Привет, я Гошин бот. Доступные команды, можно посмотреть тут /help")
 
 
 @bot.message_handler(commands=["course"])
