@@ -1,6 +1,6 @@
 #coding:utf-8
 
-TOKEN = "755147149:AAGagxJk8FI4EFkdGa2CEvxlz5KKCaOBu3M"
+TOKEN = "************"
 
 LIST_OPEN = False
 LIST_COMPLETE = False
