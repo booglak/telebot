@@ -8,10 +8,11 @@ def start(message):
     bot.send_message(message.chat.id, "Доступные команды: \n"
                                       "/help - описание доступных команд \n"
                                       "/course - текущий курс доллара в приват банке \n"
-                                      "/add_list - добавить новый список чего-либо \n"
-                                      "/get_list - посмотреть последний введенный список \n"
-                                      "/clear_list - очистить список \n"
-                                      "/complete_list - дополнить список \n")
+                                      "/travel_info - краткая инфа о походе \n"
+                                      "/members - участники сего алкотура \n"
+                                      "/track - маршрут по горам (альфа версия) \n"
+                                      "/menu - меню жратвы (пре-альфа версия) \n"
+                                      "/bar - меню бара (бета версия) \n")
 
 
 @bot.message_handler(commands=["start"])
@@ -27,45 +28,54 @@ def course(message):
                                       f"Курс покупки доллара в привате: {c2}")
 
 
-# Команда присваивает константе из конфига True для того что бы сработала функция add
-@bot.message_handler(commands=["add_list"])
-def add_list(message):
-    bot.send_message(message.chat.id, "Введи список!")
-    config.LIST_OPEN = True
+@bot.message_handler(commands=["travel_info"])
+def course(message):
+    bot.send_message(message.chat.id, "Значит так! Пиздуем 26го апреля в Черновцы. Там садимся на какой-то автобус"
+                                      " и едем в сторону Белоберезки. "
+                                      "Там тусуем по горам с финишем на резиденции Мультика. \n"
+                                      "Потом снова прыгаем в автобус и едем назад в Черновцы, "
+                                      "откуда, еще на одном автобусе, добираемся до Каменец-Подольского. "
+                                      "В Каменце мы ночуем в гостиничке и на след день с утреца, "
+                                      "мимо магазина едем на Бакоту, где и тюленим оставшиеся дни.\n"
+                                      "4го мая возвращаемся в Каменец, где вечером садимся в поезд и тулим домой. ")
 
 
-# Функция добавляет в строковую переменную введенный список, вызывается только после add_list
-@bot.message_handler(func=lambda message: config.LIST_OPEN == True)
-def add(message):
-    config.MANUAL_LIST = message.text
-    config.LIST_OPEN = False
+@bot.message_handler(commands=["members"])
+def course(message):
+    bot.send_message(message.chat.id, "В текущем алкотуре принимают участие:\n"
+                                      "- ШШ \n"
+                                      "- Лера \n"
+                                      "- Гоша \n"
+                                      "- Сако \n"
+                                      "- Тарик \n"
+                                      "- Инна \n"
+                                      "- Степа \n"
+                                      "- Олег \n"
+                                      "- Наш новый(старый) алкодруг Артем")
 
 
-# Команда присваивает константе из конфига True для того что бы сработала функция complete
-@bot.message_handler(commands=["complete_list"])
-def complete_list(message):
-    bot.send_message(message.chat.id, "Дополни список список!")
-    config.LIST_COMPLETE = True
+@bot.message_handler(commands=["track"])
+def course(message):
+    photo = open('track.png', 'rb')
+    bot.send_photo(message.chat.id, photo)
+    bot.send_photo(message.chat.id, "FILEID")
 
 
-# Функция добавляет в заполненную строку новые значения, вызывается только после complete_list
-@bot.message_handler(func=lambda message: config.LIST_COMPLETE == True)
-def add(message):
-    config.MANUAL_LIST += ('\n' + message.text)
-    config.LIST_COMPLETE = False
+@bot.message_handler(commands=["menu"])
+def course(message):
+    bot.send_message(message.chat.id, "Тут будет или екселька или скопирую сюда текстом.\n"
+                                      "На данный момент пока не понятно шо мы жрем = )")
 
 
-@bot.message_handler(commands=["clear_list"])
-def clear_list(message):
-    bot.send_message(message.chat.id, "Список очищен")
-    config.MANUAL_LIST = ''
-    config.LIST_OPEN = False
-
-
-@bot.message_handler(commands=["get_list"])
-def get_list(message):
-    bot.send_message(message.chat.id, "Последний введенный список:")
-    bot.send_message(message.chat.id, config.MANUAL_LIST)
+@bot.message_handler(commands=["bar"])
+def course(message):
+    bot.send_message(message.chat.id, "Алко меню: \n"
+                                      "- Спирт \n"
+                                      "- Водка \n"
+                                      "- Пинаколада (self.production) \n"
+                                      "- Самбука \n"
+                                      "- Коньяк \n"
+                                      "- Шот 'Мертвый Егерь' \n")
 
 
 if __name__ == "__main__":
