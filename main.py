@@ -1,4 +1,8 @@
-import telebot, config, privat_bank_course
+# coding:utf-8
+
+import telebot
+import config
+import privat_bank_course
 
 bot = telebot.TeleBot(config.TOKEN)
 
@@ -76,6 +80,18 @@ def course(message):
                                       "- Самбука \n"
                                       "- Коньяк \n"
                                       "- Шот 'Мертвый Егерь' \n")
+
+
+@bot.message_handler(commands=["message_all"])
+def add_list(message):
+    bot.send_message(message.chat.id, "Введи сообщение:")
+    config.LIST_OPEN = True
+
+
+@bot.message_handler(func=lambda message: config.LIST_OPEN == True)
+def add(message):
+    bot.send_message('@Goshitso_bot', message.text)
+    config.LIST_OPEN = False
 
 
 if __name__ == "__main__":
